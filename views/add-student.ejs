@@ -1,0 +1,31 @@
+<h1>Add Student</h1>
+
+<!-- Display success notification if it exists -->
+<% if (successMessage) { %>
+  <div class="notification success">
+    <%= successMessage %>
+  </div>
+<% } %>
+
+<!-- Display error notification if it exists -->
+<% if (errorMessage) { %>
+  <div class="notification error">
+    <%= errorMessage %>
+  </div>
+<% } %>
+
+<form method="POST" action="/add-student">
+  <div>
+    <label for="studentId">Student ID:</label>
+    <input type="text" name="studentId" id="studentId" required>
+  </div>
+  <div>
+    <label for="studentName">Student Name:</label>
+    <input type="text" name="studentName" id="studentName" required>
+  </div>
+  <div>
+    <label for="studentClass">Class:</label>
+    <input type="text" name="studentClass" id="studentClass" required>
+  </div>
+  <button type="submit">Add Student</button>
+</form>
