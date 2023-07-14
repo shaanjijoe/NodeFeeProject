@@ -1,55 +1,62 @@
 const express = require('express');
-const passport = require('passport');
-const session = require('express-session');
+const { app, isAuthenticated } = require('./auth');
 const sqlite3 = require('sqlite3').verbose();
+const passport=require('passport')
 
-const app = express();
-const port = 3000;
+const db = new sqlite3.Database('./database.db', (err) => {
+  if (err) {
+    console.error(err.message);
+  } else {
+    console.log('Connected to the SQLite database.');
+  }
+});
 
-const initializePassport = require('./passport-config');
-
-// Set up SQLite database
-const db = new sqlite3.Database('database.db');
-
-// Middleware
-app.set('view-engine', 'ejs');
+app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
-app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
 
-// Initialize Passport
-initializePassport(passport);
-
-// Routes
 app.get('/', (req, res) => {
-  res.render('login.ejs');
+  res.redirect('/login');
 });
 
-app.post(
-  '/login',
-  passport.authenticate('local', {
-    successRedirect: '/home',
-    failureRedirect: '/',
-  })
-);
+app.get('/login', (req, res) => {
+  res.render('login');
+});
 
-app.get('/home', (req, res) => {
-  res.render('home.ejs');
+app.get('/home', isAuthenticated, (req, res) => {
+  res.render('home', { user: req.user });
+});
+
+app.get('/add-student', isAuthenticated, (req, res) => {
+  res.render('add-student');
+});
+
+app.post('/add-student', isAuthenticated, (req, res) => {
+  const { name, className, uniqueId } = req.body;
+  
+  // Generate a sample JSON object
+  const data = {
+    // Add more fields as needed
+  };
+
+  // Insert student data into the database
+  const sql = 'INSERT INTO students (name, class, unique_id, data) VALUES (?, ?, ?, ?)';
+  db.run(sql, [name, className, uniqueId, JSON.stringify(data)], function (err) {
+    if (err) {
+      console.error(err.message);
+      return res.send('Error occurred while adding the student.');
+    }
+    console.log(`Added student with ID: ${this.lastID}`);
+    res.redirect('/home');
+  });
 });
 
 
-const addStudentRouter = require('./routes/addStudent');
-// const feePaymentRouter = require('./routes/feePayment');
-// const updateInfoRouter = require('./routes/updateInfo');
-// const searchRouter = require('./routes/search');
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/home',
+  failureRedirect: '/login'
+}));
 
-app.use('/add-student', addStudentRouter);
-// app.use('/fee-payment', feePaymentRouter);
-// app.use('/update-info', updateInfoRouter);
-// app.use('/search', searchRouter);
-
-// Start server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
