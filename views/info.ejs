@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Info</title>
+</head>
+<body>
+  <h1>Student Information</h1>
+  <% if (students.length > 0) { %>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Unique ID</th>
+      </tr>
+      <% students.forEach((student) => { %>
+        <tr>
+          <td><%= student.name %></td>
+          <td><%= student.class %></td>
+          <td><%= student.unique_id %></td>
+        </tr>
+      <% }) %>
+    </table>
+  <% } else { %>
+    <p>No students found with that name.</p>
+  <% } %>
+</body>
+</html>

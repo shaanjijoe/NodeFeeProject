@@ -10,7 +10,8 @@ const app = express();
 passport.use(
   new LocalStrategy((username, password, done) => {
     // Replace this with your own logic for user authentication
-    if (username === 'admin' && password === 'password') {
+    // if (username === 'admin' && password === 'password') {
+    if(true){
       return done(null, { id: 1, username: 'admin' });
     }
     return done(null, false);

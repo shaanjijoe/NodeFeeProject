@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update Info</title>
+</head>
+<body>
+  <h1>Update Info</h1>
+  <form method="GET" action="/update-info">
+    <div>
+      <label for="uniqueId">Unique ID:</label>
+      <input type="text" id="uniqueId" name="uniqueId" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  <% if (student) { %>
+    <p>Unique ID: <%= student.unique_id %></p>
+    <form method="POST" action="/update-info/submit">
+      <input type="hidden" name="uniqueId" value="<%= student.unique_id %>">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= student.name %>" required>
+      </div>
+      <div>
+        <label for="class">Class:</label>
+        <input type="text" id="class" name="class" value="<%= student.class %>" required>
+      <!-- </div>
+      <% for (const key in studentData) { %>
+        <% if (key !== 'unique_id') { %>
+          <div>
+            <label for="<%= key %>"><%= key %>:</label>
+            <input type="text" id="<%= key %>" name="<%= key %>" value="<%= studentData[key] %>" required>
+          </div>
+        <% } %>
+      <% } %> -->
+      <br>
+      <button type="submit">Update</button>
+    </form>
+  <% } else if (student === false) { %>
+    <p>Student not found.</p>
+  <% } %>
+  
+</body>
+</html>

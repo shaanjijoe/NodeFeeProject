@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fee Payment</title>
+</head>
+<body>
+  <h1>Fee Payment</h1>
+  <% if (student) { %>
+    <p>Name: <%= student.name %></p>
+    <p>Class: <%= student.class %></p>
+    <p>Unique ID: <%= student.unique_id %></p>
+
+    <% if (studentData && studentData.fee && studentData.fee.length > 0) { %>
+      <h2>Fee Payments</h2>
+      <table>
+        <tr>
+          <th>Payment ID</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </tr>
+        <% studentData.fee.forEach((payment, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= payment.amount %></td>
+            <td><%= payment.date %></td>
+          </tr>
+        <% }); %>
+      </table>
+    <% } else { %>
+      <p>No fee payments found.</p>
+    <% } %>
+
+    <h2>New Fee Payment</h2>
+    <form method="POST" action="/fee-payment/submit">
+      <input type="hidden" name="uniqueId" value="<%= student.unique_id %>">
+      <div>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required>
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="<%= currentDate %>">
+      </div>
+      <button type="submit">Submit Payment</button>
+    </form>
+
+  <% } else { %>
+    <form method="POST" action="/fee-payment">
+      <div>
+        <label for="uniqueId">Unique ID:</label>
+        <input type="text" id="uniqueId" name="uniqueId" required>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  <% } %>
+</body>
+</html>
