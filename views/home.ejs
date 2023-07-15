@@ -2,14 +2,79 @@
 <html>
 <head>
   <title>Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+      background-color: rgb(248, 249, 250);
+    }
+    
+    .container-box {
+      border: 2px solid rgb(40, 167, 69);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    
+    h1 {
+      color: rgb(40, 167, 69);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .welcome-heading {
+      text-align: center;
+      padding-bottom: 10px;
+    }
+    
+    .btn-option {
+      color: rgb(255, 255, 255);
+      background-color: rgb(40, 167, 69);
+      border-color: rgb(40, 167, 69);
+      border-radius: 10px;
+      width: calc(50vw - 100px);
+      height: 100px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn-option:hover {
+      background-color: rgb(33, 136, 56);
+      border-color: rgb(33, 136, 56);
+    }
+    
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome, <%= user.username %>!</h1>
-  <ul>
-    <li><a href="/add-student">Add Student</a></li>
-    <li><a href="/fee-payment">Fee Payment</a></li>
-    <li><a href="/update-info">Update Info</a></li>
-    <li><a href="/find-info">Find info</a></li>
-  </ul>
+  <div class="container">
+    <h1>Home Page</h1>
+    <a class="btn btn-danger logout-btn" href="/logout">Logout</a>
+  </div>
+  <div class="container-box">
+    <h2 class="welcome-heading">Welcome, <%= user.username %>!</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <a class="btn btn-option" href="/add-student">Add Student</a>
+      </div>
+      <div class="col-md-6">
+        <a class="btn btn-option" href="/fee-payment">Fee Payment</a>
+      </div>
+      <div class="col-md-6">
+        <a class="btn btn-option" href="/update-info">Update Info</a>
+      </div>
+      <div class="col-md-6">
+        <a class="btn btn-option" href="/find-info">Find Info</a>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,43 +1,121 @@
+<!-- update-info.ejs -->
 <!DOCTYPE html>
 <html>
 <head>
   <title>Update Info</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+      background-color: rgb(248, 249, 250);
+    }
+    
+    h1 {
+      color: rgb(40, 167, 69);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .form-container {
+      border: 2px solid rgb(40, 167, 69);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .btn-submit {
+      color: rgb(255, 255, 255);
+      background-color: rgb(40, 167, 69);
+      border-color: rgb(40, 167, 69);
+      border-radius: 10px;
+      width: 100%;
+      height: 50px;
+    }
+    
+    .btn-submit:hover {
+      background-color: rgb(33, 136, 56);
+      border-color: rgb(33, 136, 56);
+    }
+
+    .no-result {
+      color: red;
+      margin-top: 20px;
+    }
+
+    .details-container {
+      border: 2px solid rgb(40, 167, 69);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: white;
+    }
+
+    .details-heading {
+      color: rgb(40, 167, 69);
+      margin-bottom: 20px;
+    }
+
+    .home-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Update Info</h1>
-  <form method="GET" action="/update-info">
-    <div>
-      <label for="uniqueId">Unique ID:</label>
-      <input type="text" id="uniqueId" name="uniqueId" required>
-    </div>
-    <button type="submit">Submit</button>
-  </form>
-  <% if (student) { %>
-    <p>Unique ID: <%= student.unique_id %></p>
-    <form method="POST" action="/update-info/submit">
-      <input type="hidden" name="uniqueId" value="<%= student.unique_id %>">
-      <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="<%= student.name %>" required>
-      </div>
-      <div>
-        <label for="class">Class:</label>
-        <input type="text" id="class" name="class" value="<%= student.class %>" required>
-      <!-- </div>
-      <% for (const key in studentData) { %>
-        <% if (key !== 'unique_id') { %>
-          <div>
-            <label for="<%= key %>"><%= key %>:</label>
-            <input type="text" id="<%= key %>" name="<%= key %>" value="<%= studentData[key] %>" required>
-          </div>
-        <% } %>
-      <% } %> -->
-      <br>
-      <button type="submit">Update</button>
-    </form>
-  <% } else if (student === false) { %>
-    <p>Student not found.</p>
-  <% } %>
+  <div class="container">
+    <h1>Update Info</h1>
+  </div>
   
+  <div class="form-container">
+    <form method="GET" action="/update-info">
+      <div class="form-group">
+        <label for="uniqueId">Unique ID:</label>
+        <input type="text" id="uniqueId" name="uniqueId" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-submit">Submit</button>
+    </form>
+    
+    <% if (student) { %>
+      <div class="details-container">
+        <h2 class="details-heading">Details</h2>
+        <p>Unique ID: <%= student.unique_id %></p>
+        <form method="POST" action="/update-info/submit">
+          <input type="hidden" name="uniqueId" value="<%= student.unique_id %>">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= student.name %>" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="class">Class:</label>
+            <select id="class" name="class" class="form-control" required>
+              <option value="" selected disabled>Select Class</option>
+              <option value="NUR" <%= student.class === 'NUR' ? 'selected' : '' %>>NUR</option>
+              <option value="KG" <%= student.class === 'KG' ? 'selected' : '' %>>KG</option>
+              <option value="I" <%= student.class === 'I' ? 'selected' : '' %>>I</option>
+              <option value="II" <%= student.class === 'II' ? 'selected' : '' %>>II</option>
+              <option value="III" <%= student.class === 'III' ? 'selected' : '' %>>III</option>
+              <option value="IV" <%= student.class === 'IV' ? 'selected' : '' %>>IV</option>
+              <option value="V" <%= student.class === 'V' ? 'selected' : '' %>>V</option>
+              <option value="VI" <%= student.class === 'VI' ? 'selected' : '' %>>VI</option>
+              <option value="VII" <%= student.class === 'VII' ? 'selected' : '' %>>VII</option>
+              <option value="VIII" <%= student.class === 'VIII' ? 'selected' : '' %>>VIII</option>
+            </select>
+          </div>
+          <!-- Add more fields for studentData here if needed -->
+          <button type="submit" class="btn btn-submit">Update</button>
+        </form>
+      </div>
+    <% } else if (student === false) { %>
+      <p class="no-result">Student not found.</p>
+    <% } %>
+  </div>
+
+  <button onclick="window.location.href='/home'" class="btn btn-primary home-btn">Home</button>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

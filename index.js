@@ -14,7 +14,7 @@ const db = new sqlite3.Database('./database.db', (err) => {
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', (req, res) => {
@@ -55,12 +55,20 @@ app.post('/add-student', isAuthenticated, (req, res) => {
 });
 
 
+//
+// ...
+
 app.get('/find-info', isAuthenticated, (req, res) => {
-  res.render('find-info');
+  res.render('find-info', { students: [] });
 });
 
 app.post('/find-info', isAuthenticated, (req, res) => {
   const { name } = req.body;
+
+  // Check if the search query is empty
+  if (!name) {
+    return res.render('find-info', { students: [] });
+  }
 
   // Query the database to find student information
   const sql = 'SELECT * FROM students WHERE name LIKE ?';
@@ -70,9 +78,23 @@ app.post('/find-info', isAuthenticated, (req, res) => {
       console.error(err.message);
       return res.send('Error occurred while fetching student information.');
     }
-    res.render('info', { students: rows });
+
+    if (rows && rows.length > 0) {
+      res.render('find-info', { students: rows });
+    } else {
+      res.render('find-info', { students: [] });
+    }
   });
 });
+
+// ...
+
+// ...
+
+
+
+
+
 
 
 app.get('/fee-payment', isAuthenticated, (req, res) => {
@@ -117,14 +139,18 @@ app.post('/fee-payment/submit', isAuthenticated, (req, res) => {
     }
 
     const studentData = JSON.parse(row.data);
+    if (!studentData.fee) {
+      studentData.fee = [];
+    }
+
     const payment = {
       amount: parseFloat(amount),
       date: date || new Date().toISOString().split('T')[0]
     };
 
-    console.log(studentData);
-    studentData.fee.push(payment);
 
+    studentData.fee.push(payment);
+    console.log(studentData)
     const updateSql = 'UPDATE students SET data = ? WHERE unique_id = ?';
     db.run(updateSql, [JSON.stringify(studentData), uniqueId], (err) => {
       if (err) {
@@ -215,6 +241,13 @@ app.post('/login', passport.authenticate('local', {
   successRedirect: '/home',
   failureRedirect: '/login'
 }));
+
+app.get('/logout', (req, res) => {
+  req.logout(() => {
+    res.redirect('/login'); // Redirect to login page after logout
+  });
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

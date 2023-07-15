@@ -2,31 +2,85 @@
 <html>
 <head>
   <title>Add Student</title>
-</head>
-<body>
-  <h1>Add Student</h1>
-  <form method="POST" action="/add-student">
-    <div>
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-      <label for="className">Class:</label>
-      <input type="text" id="className" name="className" required>
-    </div>
-    <div>
-      <label for="uniqueId">Unique ID:</label>
-      <input type="text" id="uniqueId" name="uniqueId" required>
-    </div>
-    <button type="submit">Add Student</button>
-  </form>
-  
-  <button onclick="window.location.href='/home'" class="home-btn">Home</button>
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
+    body {
+      background-color: rgb(248, 249, 250);
+      padding-top: 20px;
+    }
+    
+    .container {
+      margin-top: 40px;
+    }
+    
+    .form-container {
+      border: 2px solid rgb(40, 167, 69);
+      border-radius: 10px;
+      padding: 20px;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: rgb(40, 167, 69);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      font-weight: bold;
+    }
+    
     .home-btn {
-      margin-top: 10px;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    
+    .add-btn {
+      background-color: rgb(40, 167, 69);
+      color: white;
     }
   </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Add Student</h1>
+  </div>
+  <div class="container form-container">
+    <form method="POST" action="/add-student">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="className">Class:</label>
+          <select class="form-control" id="className" name="className" required>
+            <option value="">Select Class</option>
+            <option value="Nursery">Nursery</option>
+            <option value="LKG">LKG</option>
+            <option value="UKG">UKG</option>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+            <option value="V">V</option>
+            <option value="VI">VI</option>
+            <option value="VII">VII</option>
+            <option value="VIII">VIII</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="uniqueId">Unique ID:</label>
+        <input type="text" class="form-control" id="uniqueId" name="uniqueId" required>
+      </div>
+      <button type="submit" class="btn btn-primary add-btn">Add Student</button>
+    </form>
+  </div>
+  <button onclick="window.location.href='/home'" class="btn btn-primary home-btn">Home</button>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
